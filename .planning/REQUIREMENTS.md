@@ -94,12 +94,12 @@ Deferred to future milestones.
 | Feature | Reason |
 |---------|--------|
 | Kubernetes (EKS) | Too complex for initial learning; ECS teaches same concepts simpler |
-| Multi-cloud (GCP, Azure) | Depth over breadth — AWS mastery first |
+| Multi-cloud (GCP, Azure) | Depth over breadth -- AWS mastery first |
 | AWS Certifications | Practical skills, not exam prep |
 | Serverless (Lambda) | Learn traditional compute first to understand what serverless abstracts |
 | Service mesh (Istio) | K8s-adjacent, too advanced for v1 |
 | Multi-region / DR | Expensive, complex; single-region sufficient for learning |
-| Frontend architecture | Already strong — not the gap to close |
+| Frontend architecture | Already strong -- not the gap to close |
 | ML / Data Engineering | Separate domain |
 
 ## Traceability
@@ -147,10 +147,10 @@ Deferred to future milestones.
 | SYDE-07 | Phase 8 | Pending |
 
 **Coverage:**
-- v1 requirements: 37 total
-- Mapped to phases: 37
-- Unmapped: 0 ✓
+- v1 requirements: 39 total
+- Mapped to phases: 39
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-05-06*
-*Last updated: 2026-05-06 after initial definition*
+*Last updated: 2026-05-06 after roadmap creation*
