@@ -47,11 +47,12 @@ Plans:
   1. A React frontend and Node API are running on EC2 behind Nginx reverse proxy, accessible via a public URL
   2. The app reads and writes data to an RDS PostgreSQL database in a private subnet
   3. Learner can explain each component in the deployment (Nginx config, PM2 process, RDS connection, security group rules)
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 02-01: TBD
-- [ ] 02-02: TBD
+- [ ] 02-01-PLAN.md — Build the e-commerce app (React/Vite frontend + Express API + Drizzle ORM)
+- [ ] 02-02-PLAN.md — EC2 deployment runbook (Nginx, PM2, HTTPS with Certbot)
+- [ ] 02-03-PLAN.md — RDS database setup runbook, teardown and rebuild scripts
 
 ### Phase 3: Containerization
 **Goal**: Learner can containerize applications with Docker and manage multi-service stacks, ready for cloud container deployment
@@ -156,7 +157,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 3/3 | Complete | 2026-05-06 |
-| 2. First Deploy | 0/2 | Not started | - |
+| 2. First Deploy | 0/3 | Not started | - |
 | 3. Containerization | 0/3 | Not started | - |
 | 4. CI/CD | 0/2 | Not started | - |
 | 5. Infrastructure as Code and Database | 0/3 | Not started | - |
