@@ -1,0 +1,50 @@
+# =============================================================================
+# .dockerignore
+# =============================================================================
+# Controls which files are sent to the Docker daemon as "build context"
+# when you run `docker build`. Excluding large/unnecessary files:
+#   - Speeds up the build (less data to transfer)
+#   - Reduces image size (excluded files can't be COPY'd)
+#   - Prevents secrets from accidentally ending up in images
+# =============================================================================
+
+# Dependencies (reinstalled inside the container via pnpm install)
+node_modules
+
+# Build output (rebuilt inside the container)
+dist
+
+# Version control (not needed for building the app)
+.git
+.gitignore
+
+# Environment files (NEVER put secrets in Docker images)
+# Secrets should be passed at runtime via docker run -e or env_file
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE configs
+.vscode
+.idea
+*.swp
+*.swo
+
+# Security-sensitive files
+*.pem
+*.key
+.aws
+
+# Docker files (no need to copy these into the image)
+Dockerfile
+Dockerfile.*
+.dockerignore
+docker-compose*.yml

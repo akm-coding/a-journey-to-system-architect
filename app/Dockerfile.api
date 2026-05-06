@@ -1,0 +1,55 @@
+# =============================================================================
+# Dockerfile: Node.js API Server
+# =============================================================================
+# Single-stage build (no multi-stage needed -- we need Node.js at runtime)
+#
+# IMPORTANT: You must run `pnpm build:server` on your host BEFORE building
+# this image. The Dockerfile copies pre-built JS files from dist/server/.
+#
+# Why not build inside the container?
+#   - Keeps the image smaller (no TypeScript, no devDependencies)
+#   - Build step happens in CI/CD or locally, not in the Docker image
+#   - Production image only has what's needed to RUN the server
+# =============================================================================
+
+# Start from Node 20 on Alpine Linux
+FROM node:20-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Enable pnpm (Alpine doesn't include it by default)
+RUN corepack enable
+
+# Copy dependency manifests and install PRODUCTION deps only
+# --prod skips devDependencies (TypeScript, tsx, vite, etc.)
+# --frozen-lockfile ensures lockfile isn't modified during install
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile --prod
+
+# Copy the pre-built server code
+# This expects `pnpm build:server` to have been run already
+COPY dist/server ./dist/server
+
+# Copy Drizzle schema/migration files
+# Drizzle ORM reads these at runtime for schema operations and migrations
+# Without these, database push/migration commands would fail
+COPY src/server/db ./src/server/db
+
+# ---------------------------------------------------------------------------
+# Security: Run as non-root user
+# ---------------------------------------------------------------------------
+# By default, Docker runs as root. This is a security risk --
+# if an attacker escapes the container, they'd have root on the host.
+# Create a dedicated user with minimal privileges.
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+
+# Switch to the non-root user for all subsequent commands
+# The Node.js process will run as 'appuser', not root
+USER appuser
+
+# Document that this container listens on port 3000
+EXPOSE 3000
+
+# Start the Node.js server
+CMD ["node", "dist/server/index.js"]
