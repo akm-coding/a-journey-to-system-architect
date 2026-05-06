@@ -50,7 +50,7 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 02-01-PLAN.md — Build the e-commerce app (React/Vite frontend + Express API + Drizzle ORM)
+- [x] 02-01-PLAN.md — Build the e-commerce app (React/Vite frontend + Express API + Drizzle ORM)
 - [ ] 02-02-PLAN.md — EC2 deployment runbook (Nginx, PM2, HTTPS with Certbot)
 - [ ] 02-03-PLAN.md — RDS database setup runbook, teardown and rebuild scripts
 
