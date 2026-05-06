@@ -62,12 +62,12 @@ Plans:
   1. The React app builds via a multi-stage Dockerfile producing a small production image
   2. The full stack (app + database + Redis) runs locally via Docker Compose with a single command
   3. Docker images are pushed to ECR and can be pulled from another machine or service
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 03-01: TBD
-- [ ] 03-02: TBD
-- [ ] 03-03: TBD
+- [ ] 03-01-PLAN.md — Docker study materials, Dockerfiles, nginx.conf, and .dockerignore
+- [ ] 03-02-PLAN.md — Docker Compose study materials, dev/prod compose files, and .env pattern
+- [ ] 03-03-PLAN.md — ECR study materials, teardown script, phase overview, and gate checklist
 
 ### Phase 4: CI/CD
 **Goal**: Learner can automate the build-test-deploy cycle so code merged to main reaches production without manual steps
