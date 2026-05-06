@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: in-progress
-last_updated: "2026-05-07T18:57:38Z"
+last_updated: "2026-05-07T19:09:01Z"
 progress:
   total_phases: 3
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 9
-  completed_plans: 7
+  completed_plans: 9
 ---
 
 # Project State
@@ -23,18 +23,18 @@ See: .planning/PROJECT.md (updated 2026-05-06)
 ## Current Position
 
 Phase: 3 of 8 (Containerization)
-Plan: 1 of 3 in current phase
-Status: In Progress
-Last activity: 2026-05-07 -- Completed 03-01-PLAN.md
+Plan: 3 of 3 in current phase
+Status: Phase Complete
+Last activity: 2026-05-07 -- Completed 03-03-PLAN.md
 
-Progress: [███████░░░] 28%
+Progress: [█████████░] 36%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 7
+- Total plans completed: 9
 - Average duration: 4.6 min
-- Total execution time: 0.53 hours
+- Total execution time: 0.68 hours
 
 **By Phase:**
 
@@ -42,10 +42,10 @@ Progress: [███████░░░] 28%
 |-------|-------|-------|----------|
 | 1. Foundation | 3/3 | 14 min | 4.7 min |
 | 2. First Deploy | 3/3 | 14 min | 4.7 min |
-| 3. Containerization | 1/3 | 4 min | 4 min |
+| 3. Containerization | 3/3 | 13 min | 4.3 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-03 (7 min), 02-01 (5 min), 02-02 (4 min), 02-03 (5 min), 03-01 (4 min)
+- Last 5 plans: 02-02 (4 min), 02-03 (5 min), 03-01 (4 min), 03-02 (4 min), 03-03 (5 min)
 - Trend: Steady
 
 *Updated after each plan completion*
@@ -81,6 +81,13 @@ Recent decisions affecting current work:
 - Non-root user (appuser) in API Dockerfile for security best practice
 - Nginx config proxies /api/ to Docker Compose service name 'api' for seamless frontend-backend communication
 - API Dockerfile expects pre-built dist/server/ to keep image smaller and simpler
+- Health-check-based startup ordering with service_healthy for db and redis before API starts
+- Dev compose uses bind mounts for server hot reload; prod override removes them for immutable deployments
+- Redis included in stack now (for later caching phases) to establish full 4-service architecture
+- .env.example committed with placeholder values; .env gitignored for real credentials
+- ECR lifecycle policy: keep last 10 tagged images, expire untagged after 7 days
+- ECR push uses dual tagging: commit SHA for traceability + latest for convenience
+- Phase gate checklist uses prove-it sections with runnable commands for each requirement
 
 ### Pending Todos
 
@@ -93,5 +100,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-05-07
-Stopped at: Completed 03-01-PLAN.md
-Resume file: .planning/phases/03-containerization/03-01-SUMMARY.md
+Stopped at: Completed 03-03-PLAN.md (Phase 3 complete)
+Resume file: .planning/phases/03-containerization/03-03-SUMMARY.md

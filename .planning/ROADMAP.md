@@ -13,8 +13,8 @@ A progressive, hands-on learning program that takes a React/Node developer from 
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation** - Linux, networking, AWS account setup, and core concepts
-- [ ] **Phase 2: First Deploy** - Manual EC2 deployment with Nginx, PM2, and RDS
-- [ ] **Phase 3: Containerization** - Docker, Docker Compose, and ECR
+- [x] **Phase 2: First Deploy** - Manual EC2 deployment with Nginx, PM2, and RDS
+- [x] **Phase 3: Containerization** - Docker, Docker Compose, and ECR
 - [ ] **Phase 4: CI/CD** - GitHub Actions pipelines with staging and production
 - [ ] **Phase 5: Infrastructure as Code and Database** - Terraform for all resources plus RDS production patterns
 - [ ] **Phase 6: Container Orchestration** - ECS/Fargate with ALB and auto-scaling
@@ -51,8 +51,8 @@ Plans:
 
 Plans:
 - [x] 02-01-PLAN.md — Build the e-commerce app (React/Vite frontend + Express API + Drizzle ORM)
-- [ ] 02-02-PLAN.md — EC2 deployment runbook (Nginx, PM2, HTTPS with Certbot)
-- [ ] 02-03-PLAN.md — RDS database setup runbook, teardown and rebuild scripts
+- [x] 02-02-PLAN.md — EC2 deployment runbook (Nginx, PM2, HTTPS with Certbot)
+- [x] 02-03-PLAN.md — RDS database setup runbook, teardown and rebuild scripts
 
 ### Phase 3: Containerization
 **Goal**: Learner can containerize applications with Docker and manage multi-service stacks, ready for cloud container deployment
@@ -66,8 +66,8 @@ Plans:
 
 Plans:
 - [x] 03-01-PLAN.md — Docker study materials, Dockerfiles, nginx.conf, and .dockerignore
-- [ ] 03-02-PLAN.md — Docker Compose study materials, dev/prod compose files, and .env pattern
-- [ ] 03-03-PLAN.md — ECR study materials, teardown script, phase overview, and gate checklist
+- [x] 03-02-PLAN.md — Docker Compose study materials, dev/prod compose files, and .env pattern
+- [x] 03-03-PLAN.md — ECR study materials, teardown script, phase overview, and gate checklist
 
 ### Phase 4: CI/CD
 **Goal**: Learner can automate the build-test-deploy cycle so code merged to main reaches production without manual steps
@@ -157,8 +157,8 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 3/3 | Complete | 2026-05-06 |
-| 2. First Deploy | 0/3 | Not started | - |
-| 3. Containerization | 1/3 | In progress | - |
+| 2. First Deploy | 3/3 | Complete | 2026-05-07 |
+| 3. Containerization | 3/3 | Complete | 2026-05-07 |
 | 4. CI/CD | 0/2 | Not started | - |
 | 5. Infrastructure as Code and Database | 0/3 | Not started | - |
 | 6. Container Orchestration | 0/3 | Not started | - |
