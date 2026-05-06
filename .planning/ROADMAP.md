@@ -65,7 +65,7 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 03-01-PLAN.md — Docker study materials, Dockerfiles, nginx.conf, and .dockerignore
+- [x] 03-01-PLAN.md — Docker study materials, Dockerfiles, nginx.conf, and .dockerignore
 - [ ] 03-02-PLAN.md — Docker Compose study materials, dev/prod compose files, and .env pattern
 - [ ] 03-03-PLAN.md — ECR study materials, teardown script, phase overview, and gate checklist
 
@@ -158,7 +158,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8
 |-------|----------------|--------|-----------|
 | 1. Foundation | 3/3 | Complete | 2026-05-06 |
 | 2. First Deploy | 0/3 | Not started | - |
-| 3. Containerization | 0/3 | Not started | - |
+| 3. Containerization | 1/3 | In progress | - |
 | 4. CI/CD | 0/2 | Not started | - |
 | 5. Infrastructure as Code and Database | 0/3 | Not started | - |
 | 6. Container Orchestration | 0/3 | Not started | - |

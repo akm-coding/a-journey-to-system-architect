@@ -2,13 +2,13 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: unknown
-last_updated: "2026-05-06T16:48:13.603Z"
+status: in-progress
+last_updated: "2026-05-07T18:57:38Z"
 progress:
-  total_phases: 2
+  total_phases: 3
   completed_phases: 2
-  total_plans: 6
-  completed_plans: 6
+  total_plans: 9
+  completed_plans: 7
 ---
 
 # Project State
@@ -18,23 +18,23 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-06)
 
 **Core value:** Independently provision, deploy, scale, and reason about production systems on AWS
-**Current focus:** Phase 2: First Deploy
+**Current focus:** Phase 3: Containerization
 
 ## Current Position
 
-Phase: 2 of 8 (First Deploy) -- COMPLETE
-Plan: 3 of 3 in current phase
-Status: Phase 2 Complete
-Last activity: 2026-05-06 -- Completed 02-03-PLAN.md
+Phase: 3 of 8 (Containerization)
+Plan: 1 of 3 in current phase
+Status: In Progress
+Last activity: 2026-05-07 -- Completed 03-01-PLAN.md
 
-Progress: [██████░░░░] 24%
+Progress: [███████░░░] 28%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 6
-- Average duration: 4.7 min
-- Total execution time: 0.47 hours
+- Total plans completed: 7
+- Average duration: 4.6 min
+- Total execution time: 0.53 hours
 
 **By Phase:**
 
@@ -42,9 +42,10 @@ Progress: [██████░░░░] 24%
 |-------|-------|-------|----------|
 | 1. Foundation | 3/3 | 14 min | 4.7 min |
 | 2. First Deploy | 3/3 | 14 min | 4.7 min |
+| 3. Containerization | 1/3 | 4 min | 4 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-02 (4 min), 01-03 (7 min), 02-01 (5 min), 02-02 (4 min), 02-03 (5 min)
+- Last 5 plans: 01-03 (7 min), 02-01 (5 min), 02-02 (4 min), 02-03 (5 min), 03-01 (4 min)
 - Trend: Steady
 
 *Updated after each plan completion*
@@ -76,6 +77,10 @@ Recent decisions affecting current work:
 - Certbot installed via pip venv on AL2023 (no native package available)
 - Teardown script fully automates resource deletion with confirmation prompt and dependency-ordered steps
 - Rebuild script is a guided checklist (not blind automation) so learner practices from memory
+- Multi-stage Dockerfile: Node build stage + nginx serve stage for 95% image size reduction
+- Non-root user (appuser) in API Dockerfile for security best practice
+- Nginx config proxies /api/ to Docker Compose service name 'api' for seamless frontend-backend communication
+- API Dockerfile expects pre-built dist/server/ to keep image smaller and simpler
 
 ### Pending Todos
 
@@ -87,6 +92,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-06
-Stopped at: Completed 02-03-PLAN.md (Phase 2 complete)
-Resume file: .planning/phases/02-first-deploy/02-03-SUMMARY.md
+Last session: 2026-05-07
+Stopped at: Completed 03-01-PLAN.md
+Resume file: .planning/phases/03-containerization/03-01-SUMMARY.md

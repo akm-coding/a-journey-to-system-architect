@@ -20,7 +20,7 @@ Requirements for the full learning program. Each maps to roadmap phases.
 
 - [x] **DEPL-01**: Learner can deploy a React/Node app to EC2 manually (Nginx reverse proxy + PM2)
 - [x] **DEPL-02**: Learner can connect the deployed app to an RDS PostgreSQL database
-- [ ] **DEPL-03**: Learner can write Dockerfiles for React (multi-stage build) and Node apps
+- [x] **DEPL-03**: Learner can write Dockerfiles for React (multi-stage build) and Node apps
 - [ ] **DEPL-04**: Learner can use Docker Compose to run a multi-service stack locally (app + db + redis)
 - [ ] **DEPL-05**: Learner can push Docker images to AWS ECR
 - [ ] **DEPL-06**: Learner can set up a GitHub Actions pipeline that builds, tests, and deploys on merge
@@ -114,7 +114,7 @@ Deferred to future milestones.
 | FOUND-06 | Phase 1 | Complete |
 | DEPL-01 | Phase 2 | Complete |
 | DEPL-02 | Phase 2 | Complete |
-| DEPL-03 | Phase 3 | Pending |
+| DEPL-03 | Phase 3 | Complete |
 | DEPL-04 | Phase 3 | Pending |
 | DEPL-05 | Phase 3 | Pending |
 | DEPL-06 | Phase 4 | Pending |
