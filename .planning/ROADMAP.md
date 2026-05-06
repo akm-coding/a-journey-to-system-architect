@@ -12,7 +12,7 @@ A progressive, hands-on learning program that takes a React/Node developer from 
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation** - Linux, networking, AWS account setup, and core concepts
+- [x] **Phase 1: Foundation** - Linux, networking, AWS account setup, and core concepts
 - [ ] **Phase 2: First Deploy** - Manual EC2 deployment with Nginx, PM2, and RDS
 - [ ] **Phase 3: Containerization** - Docker, Docker Compose, and ECR
 - [ ] **Phase 4: CI/CD** - GitHub Actions pipelines with staging and production
@@ -36,8 +36,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 Plans:
 - [x] 01-01-PLAN.md — Monorepo skeleton, AWS account setup guides, and phase tracking templates
-- [ ] 01-02-PLAN.md — Linux fundamentals and processes/permissions study materials
-- [ ] 01-03-PLAN.md — Networking (VPC/SGs), DNS, and SSL/TLS study materials
+- [x] 01-02-PLAN.md — Linux fundamentals and processes/permissions study materials
+- [x] 01-03-PLAN.md — Networking (VPC/SGs), DNS, and SSL/TLS study materials
 
 ### Phase 2: First Deploy
 **Goal**: Learner can deploy a full-stack React/Node app to EC2 manually, understanding every step of what managed platforms abstract away
@@ -155,7 +155,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/3 | Not started | - |
+| 1. Foundation | 3/3 | Complete | 2026-05-06 |
 | 2. First Deploy | 0/2 | Not started | - |
 | 3. Containerization | 0/3 | Not started | - |
 | 4. CI/CD | 0/2 | Not started | - |

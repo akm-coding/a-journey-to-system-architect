@@ -10,27 +10,27 @@ See: .planning/PROJECT.md (updated 2026-05-06)
 ## Current Position
 
 Phase: 1 of 8 (Foundation)
-Plan: 2 of 3 in current phase
-Status: Executing
-Last activity: 2026-05-06 -- Completed 01-02-PLAN.md
+Plan: 3 of 3 in current phase
+Status: Phase 1 Complete
+Last activity: 2026-05-06 -- Completed 01-03-PLAN.md
 
-Progress: [██░░░░░░░░] 8%
+Progress: [██░░░░░░░░] 12%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 2
-- Average duration: 3.5 min
-- Total execution time: 0.12 hours
+- Total plans completed: 3
+- Average duration: 4.7 min
+- Total execution time: 0.23 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 1. Foundation | 2/3 | 7 min | 3.5 min |
+| 1. Foundation | 3/3 | 14 min | 4.7 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (3 min), 01-02 (4 min)
+- Last 5 plans: 01-01 (3 min), 01-02 (4 min), 01-03 (7 min)
 - Trend: Steady
 
 *Updated after each plan completion*
@@ -51,6 +51,9 @@ Recent decisions affecting current work:
 - Concept-then-build doc pattern: guide.md (WHY/WHAT) -> exercise.md (hands-on) -> cheatsheet.md (reference)
 - Amazon Linux 2023 with yum as exercise target OS
 - Nginx as practical systemd service example for teaching service management
+- Cloudflare free tier for DNS (zero cost), Route 53 taught conceptually for later phases
+- ACM certs work only with ALB/CloudFront, not standalone EC2 -- use Let's Encrypt for EC2
+- DNS must be working before SSL exercise (domain resolution required for certificate issuance)
 
 ### Pending Todos
 
@@ -63,5 +66,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-05-06
-Stopped at: Completed 01-02-PLAN.md
-Resume file: .planning/phases/01-foundation/01-02-SUMMARY.md
+Stopped at: Completed 01-03-PLAN.md (Phase 1 complete)
+Resume file: .planning/phases/01-foundation/01-03-SUMMARY.md
