@@ -1,0 +1,123 @@
+# =============================================================================
+# Docker Compose: Development Configuration
+# =============================================================================
+# Full stack: React frontend + Node API + PostgreSQL + Redis
+#
+# Usage:
+#   docker compose up              # Start all services
+#   docker compose up --build      # Rebuild images and start
+#   docker compose down            # Stop and remove containers
+#   docker compose down -v         # Also remove volumes (database data!)
+#
+# Prerequisites:
+#   1. Copy .env.example to .env:  cp .env.example .env
+#   2. Build the server:           pnpm build:server
+# =============================================================================
+
+services:
+  # ---------------------------------------------------------------------------
+  # PostgreSQL Database
+  # ---------------------------------------------------------------------------
+  # Official PostgreSQL 16 image from Docker Hub.
+  # Data is persisted in a named volume (pgdata) so it survives restarts.
+  db:
+    image: postgres:16
+    environment:
+      # These variables are read from .env via Compose's automatic interpolation.
+      # PostgreSQL uses them on first startup to create the default user and database.
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      # Expose to host for development tools (pgAdmin, psql, etc.)
+      # In production, you would NOT expose this port to the host.
+      - "5432:5432"
+    volumes:
+      # Named volume: Docker manages the storage location.
+      # Database data persists across container restarts and rebuilds.
+      # Only removed with `docker compose down -v`.
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      # pg_isready checks if PostgreSQL is accepting connections.
+      # This is critical: "container started" != "database ready".
+      # Without this, the API would start before the DB can accept queries.
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ---------------------------------------------------------------------------
+  # Redis Cache
+  # ---------------------------------------------------------------------------
+  # Redis 7 on Alpine (small image). Used for caching in later phases.
+  # Included now so the full stack is ready for future features.
+  redis:
+    image: redis:7-alpine
+    ports:
+      # Expose to host for development tools (redis-cli, RedisInsight, etc.)
+      - "6379:6379"
+    healthcheck:
+      # redis-cli ping returns PONG if Redis is ready.
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+
+  # ---------------------------------------------------------------------------
+  # Node.js API Server
+  # ---------------------------------------------------------------------------
+  # Built from Dockerfile.api (single-stage, production deps only).
+  # Waits for db and redis to be HEALTHY before starting.
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    ports:
+      - "3000:3000"
+    environment:
+      # DATABASE_URL uses "db" as the hostname -- Docker's internal DNS
+      # resolves this to the PostgreSQL container's IP address on the
+      # shared network that Compose creates automatically.
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      REDIS_URL: redis://redis:6379
+      PORT: 3000
+      NODE_ENV: development
+    depends_on:
+      # service_healthy: Compose waits for the health check to pass.
+      # This prevents the API from crashing on startup because the
+      # database isn't ready to accept connections yet.
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      # Bind mounts for development hot reload:
+      # Changes to these directories on your host are immediately
+      # visible inside the container. Combined with a file watcher,
+      # this enables live reloading without rebuilding the image.
+      - ./src/server:/app/src/server
+      - ./dist/server:/app/dist/server
+
+  # ---------------------------------------------------------------------------
+  # React Frontend (Nginx)
+  # ---------------------------------------------------------------------------
+  # Built from Dockerfile (multi-stage: Node build + nginx serve).
+  # Nginx serves static files and proxies /api/ to the API service.
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      # Port 80: the main entry point for the application.
+      # Users access http://localhost, nginx serves React and proxies API calls.
+      - "80:80"
+    depends_on:
+      # service_started (default): we just need the API container to exist.
+      # Nginx itself is always ready immediately -- it doesn't need the API
+      # to be healthy, it just needs a target for the proxy_pass directive.
+      - api
+
+# Named volumes must be declared at the top level.
+# This tells Compose to create and manage the volume.
+volumes:
+  pgdata:

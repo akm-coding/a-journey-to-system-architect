@@ -1,0 +1,41 @@
+# =============================================================================
+# Docker Compose: Production Override
+# =============================================================================
+# Extends docker-compose.yml with production-specific settings.
+#
+# Usage:
+#   docker compose -f docker-compose.yml -f docker-compose.prod.yml up --build
+#
+# What this override changes:
+#   - Removes bind mounts (code is baked into images at build time)
+#   - Sets NODE_ENV=production for the API
+#   - Adds restart policies so services auto-recover from crashes
+#
+# What stays the same (inherited from base file):
+#   - Service definitions, ports, health checks, depends_on, named volumes
+# =============================================================================
+
+services:
+  db:
+    # Auto-restart if the database crashes or the host reboots.
+    # "unless-stopped" restarts automatically except when you explicitly
+    # run `docker compose stop` (respects intentional maintenance stops).
+    restart: unless-stopped
+
+  redis:
+    restart: unless-stopped
+
+  api:
+    environment:
+      # Override NODE_ENV from "development" (base) to "production".
+      # Express and other libraries adjust behavior based on this value
+      # (e.g., Express hides error stack traces in production).
+      NODE_ENV: production
+    # Empty volumes list removes all bind mounts from the base file.
+    # In production, the API runs the code baked into the image at build time.
+    # No host filesystem access needed (or wanted -- immutable deployments).
+    volumes: []
+    restart: unless-stopped
+
+  frontend:
+    restart: unless-stopped
