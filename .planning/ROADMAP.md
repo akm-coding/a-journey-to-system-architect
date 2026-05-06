@@ -35,7 +35,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 3 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Monorepo skeleton, AWS account setup guides, and phase tracking templates
+- [x] 01-01-PLAN.md — Monorepo skeleton, AWS account setup guides, and phase tracking templates
 - [ ] 01-02-PLAN.md — Linux fundamentals and processes/permissions study materials
 - [ ] 01-03-PLAN.md — Networking (VPC/SGs), DNS, and SSL/TLS study materials
 

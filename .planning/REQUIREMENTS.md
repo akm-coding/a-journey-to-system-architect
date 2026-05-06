@@ -14,7 +14,7 @@ Requirements for the full learning program. Each maps to roadmap phases.
 - [ ] **FOUND-03**: Learner can explain VPC, subnets (public/private), security groups, and route tables
 - [ ] **FOUND-04**: Learner can configure DNS records (A, CNAME) and understand DNS resolution
 - [ ] **FOUND-05**: Learner can set up SSL/TLS certificates using AWS Certificate Manager
-- [ ] **FOUND-06**: Learner has IAM user configured (not root), AWS CLI working, and budget alerts set
+- [x] **FOUND-06**: Learner has IAM user configured (not root), AWS CLI working, and budget alerts set
 
 ### Deployment
 
@@ -111,7 +111,7 @@ Deferred to future milestones.
 | FOUND-03 | Phase 1 | Pending |
 | FOUND-04 | Phase 1 | Pending |
 | FOUND-05 | Phase 1 | Pending |
-| FOUND-06 | Phase 1 | Pending |
+| FOUND-06 | Phase 1 | Complete |
 | DEPL-01 | Phase 2 | Pending |
 | DEPL-02 | Phase 2 | Pending |
 | DEPL-03 | Phase 3 | Pending |
