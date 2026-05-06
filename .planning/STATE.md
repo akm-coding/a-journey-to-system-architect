@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: in-progress
-last_updated: "2026-05-06T16:35:37.000Z"
+last_updated: "2026-05-06T16:42:47.000Z"
 progress:
   total_phases: 2
-  completed_phases: 1
-  total_plans: 4
-  completed_plans: 4
+  completed_phases: 2
+  total_plans: 6
+  completed_plans: 6
 ---
 
 # Project State
@@ -22,29 +22,29 @@ See: .planning/PROJECT.md (updated 2026-05-06)
 
 ## Current Position
 
-Phase: 2 of 8 (First Deploy)
-Plan: 1 of 3 in current phase
-Status: Executing Phase 2
-Last activity: 2026-05-06 -- Completed 02-01-PLAN.md
+Phase: 2 of 8 (First Deploy) -- COMPLETE
+Plan: 3 of 3 in current phase
+Status: Phase 2 Complete
+Last activity: 2026-05-06 -- Completed 02-03-PLAN.md
 
-Progress: [██░░░░░░░░] 16%
+Progress: [██████░░░░] 24%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 4
-- Average duration: 4.8 min
-- Total execution time: 0.32 hours
+- Total plans completed: 6
+- Average duration: 4.7 min
+- Total execution time: 0.47 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1. Foundation | 3/3 | 14 min | 4.7 min |
-| 2. First Deploy | 1/3 | 5 min | 5.0 min |
+| 2. First Deploy | 3/3 | 14 min | 4.7 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (3 min), 01-02 (4 min), 01-03 (7 min), 02-01 (5 min)
+- Last 5 plans: 01-02 (4 min), 01-03 (7 min), 02-01 (5 min), 02-02 (4 min), 02-03 (5 min)
 - Trend: Steady
 
 *Updated after each plan completion*
@@ -71,6 +71,11 @@ Recent decisions affecting current work:
 - Single package.json for both server and client with separate build scripts
 - Cart stored in localStorage (no server-side sessions since no auth)
 - Separate tsconfig.server.json for server-only compilation
+- Runbook uses incremental layered order: bare Node -> PM2 -> Nginx -> React -> HTTPS
+- Nginx config explained directive by directive with table format
+- Certbot installed via pip venv on AL2023 (no native package available)
+- Teardown script fully automates resource deletion with confirmation prompt and dependency-ordered steps
+- Rebuild script is a guided checklist (not blind automation) so learner practices from memory
 
 ### Pending Todos
 
@@ -83,5 +88,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-05-06
-Stopped at: Completed 02-01-PLAN.md
-Resume file: .planning/phases/02-first-deploy/02-01-SUMMARY.md
+Stopped at: Completed 02-03-PLAN.md (Phase 2 complete)
+Resume file: .planning/phases/02-first-deploy/02-03-SUMMARY.md
