@@ -1,0 +1,9 @@
+{
+  "name": "a-journey-to-system-architect",
+  "version": "0.0.0",
+  "private": true,
+  "description": "A progressive, hands-on learning program from React/Node developer to system architect on AWS",
+  "scripts": {
+    "teardown": "bash scripts/teardown-checklist.sh"
+  }
+}
