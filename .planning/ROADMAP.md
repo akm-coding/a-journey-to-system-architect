@@ -32,12 +32,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Learner can diagram a VPC with public/private subnets, explain security group rules, and trace a request through route tables
   3. Learner can point a domain to an EC2 instance via DNS and access it over HTTPS with a valid certificate
   4. Learner has a non-root IAM user with CLI access and a budget alert configured
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 01-01: TBD
-- [ ] 01-02: TBD
-- [ ] 01-03: TBD
+- [ ] 01-01-PLAN.md — Monorepo skeleton, AWS account setup guides, and phase tracking templates
+- [ ] 01-02-PLAN.md — Linux fundamentals and processes/permissions study materials
+- [ ] 01-03-PLAN.md — Networking (VPC/SGs), DNS, and SSL/TLS study materials
 
 ### Phase 2: First Deploy
 **Goal**: Learner can deploy a full-stack React/Node app to EC2 manually, understanding every step of what managed platforms abstract away
