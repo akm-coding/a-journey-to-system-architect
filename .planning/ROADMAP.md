@@ -158,7 +158,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8
 |-------|----------------|--------|-----------|
 | 1. Foundation | 3/3 | Complete | 2026-05-06 |
 | 2. First Deploy | 3/3 | Complete | 2026-05-07 |
-| 3. Containerization | 3/3 | Complete | 2026-05-07 |
+| 3. Containerization | 3/3 | Complete    | 2026-05-06 |
 | 4. CI/CD | 0/2 | Not started | - |
 | 5. Infrastructure as Code and Database | 0/3 | Not started | - |
 | 6. Container Orchestration | 0/3 | Not started | - |
