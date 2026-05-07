@@ -1,0 +1,354 @@
+# ==============================================================================
+# CI/CD Pipeline
+# ==============================================================================
+#
+# This workflow automates everything you did by hand in Phases 2-3:
+# 1. Lint and test the code (catch bugs before they reach production)
+# 2. Build Docker images (verify they still build after changes)
+# 3. Push images to ECR and deploy to EC2 via SSH (only on merge)
+#
+# Two deployment targets:
+# - Push to `develop` -> deploy to STAGING
+# - Push to `main`    -> deploy to PRODUCTION
+#
+# On pull requests, we only lint, test, and verify Docker builds.
+# We do NOT push images or deploy -- that only happens after merge.
+# ==============================================================================
+
+name: CI/CD Pipeline
+
+# ------------------------------------------------------------------------------
+# TRIGGERS
+# ------------------------------------------------------------------------------
+# `pull_request` fires when a PR is opened, updated, or synchronized against
+# develop or main. We use this to run checks before code is merged.
+#
+# `push` fires when code is actually merged (pushed) to develop or main.
+# This is when we deploy -- because the code has been reviewed and approved.
+# ------------------------------------------------------------------------------
+on:
+  pull_request:
+    branches: [develop, main]
+  push:
+    branches: [develop, main]
+
+# ------------------------------------------------------------------------------
+# CONCURRENCY
+# ------------------------------------------------------------------------------
+# If you push two commits in quick succession, the second push cancels the
+# first run. Without this, you'd have two deployments racing each other.
+#
+# The group key combines the workflow name and branch/PR reference, so:
+# - PR #42 has its own group (won't cancel a PR #43 run)
+# - Pushes to `main` share a group (second push cancels first)
+# ------------------------------------------------------------------------------
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ============================================================================
+  # JOB 1: LINT AND TEST
+  # ============================================================================
+  # This job catches code quality issues early. If lint or tests fail, the
+  # pipeline stops here -- no Docker builds, no deploys. This is the "CI"
+  # (Continuous Integration) part of CI/CD.
+  #
+  # Why a separate job? If lint fails, we don't waste time building Docker
+  # images. Jobs run on fresh VMs, so separating them also gives cleaner logs.
+  # ============================================================================
+  lint-and-test:
+    runs-on: ubuntu-latest
+
+    # All `run` commands in this job execute from the ./app directory.
+    # This avoids repeating `cd app` in every step.
+    defaults:
+      run:
+        working-directory: ./app
+
+    steps:
+      # -- Step 1: Clone the repository --
+      # actions/checkout clones your repo into the runner's workspace.
+      # Without this, the runner has an empty directory.
+      - uses: actions/checkout@v4
+
+      # -- Step 2: Install pnpm --
+      # The runner doesn't have pnpm installed by default. This action
+      # installs it globally so we can use it in subsequent steps.
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      # -- Step 3: Set up Node.js with pnpm cache --
+      # This installs Node.js 20 and configures caching for pnpm's store.
+      # On the first run, there's no cache (cold start). On subsequent runs,
+      # pnpm restore packages from cache instead of downloading them again.
+      #
+      # cache-dependency-path tells setup-node where to find the lockfile
+      # for generating the cache key. Our lockfile is at the repo root
+      # (pnpm workspaces), not inside app/.
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+          cache-dependency-path: pnpm-lock.yaml
+
+      # -- Step 4: Install dependencies --
+      # --frozen-lockfile ensures the lockfile is not modified during install.
+      # If someone forgot to update the lockfile after adding a dependency,
+      # this will fail -- catching the mistake in CI instead of production.
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # -- Step 5: Lint --
+      # ESLint checks for code quality issues (unused variables, type errors,
+      # potential bugs). If any file fails linting, the pipeline stops.
+      - name: Lint
+        run: pnpm lint
+
+      # -- Step 6: Format check --
+      # Prettier verifies that all files follow the project's formatting rules.
+      # This is a CHECK (--check), not a fix. If formatting is wrong, the
+      # developer needs to run `pnpm format:fix` locally before pushing.
+      - name: Format check
+        run: pnpm format
+
+      # -- Step 7: Run tests --
+      # Unit tests verify that the code works as expected. Even one failing
+      # test stops the pipeline. This is the core value of CI -- every change
+      # is automatically tested before it can reach production.
+      - name: Run tests
+        run: pnpm test
+
+  # ============================================================================
+  # JOB 2: BUILD DOCKER IMAGES
+  # ============================================================================
+  # This job verifies that Docker images still build successfully after code
+  # changes. It does NOT push images anywhere -- that's Job 3's responsibility.
+  #
+  # `needs: lint-and-test` means this job waits for Job 1 to pass. If lint
+  # or tests fail, we skip the Docker build entirely (fail fast).
+  #
+  # Why build but not push on PRs? Building catches Dockerfile issues (missing
+  # files, broken COPY commands, dependency problems) before merge. But we
+  # don't want unreviewed code in our container registry.
+  # ============================================================================
+  build-images:
+    runs-on: ubuntu-latest
+    needs: lint-and-test
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # -- Build the frontend image --
+      # The frontend Dockerfile is a multi-stage build:
+      # Stage 1 (Node): Install deps, build React app with Vite
+      # Stage 2 (nginx): Copy built files, serve them
+      # The build context is ./app (where the Dockerfile lives).
+      - name: Build frontend image
+        run: docker build -t ecommerce-frontend ./app
+
+      # -- Build the API image --
+      # The API Dockerfile expects a pre-built dist/server/ directory.
+      # Unlike the frontend's multi-stage Dockerfile, the API Dockerfile
+      # does NOT build TypeScript inside Docker -- it copies the already-
+      # compiled JavaScript. This means we need to:
+      # 1. Install dependencies (to get TypeScript compiler)
+      # 2. Run the TypeScript build (creates dist/server/)
+      # 3. THEN build the Docker image
+      #
+      # Why not build inside Docker? The API Dockerfile was designed this way
+      # in Phase 3 to keep the image smaller and the build simpler. The
+      # tradeoff is this extra CI step.
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Build API server code
+        working-directory: ./app
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm build:server
+
+      - name: Build API image
+        run: docker build -t ecommerce-api -f ./app/Dockerfile.api ./app
+
+  # ============================================================================
+  # JOB 3: PUSH TO ECR AND DEPLOY
+  # ============================================================================
+  # This job only runs on PUSH events (i.e., when code is merged), not on PRs.
+  # It builds final images, pushes them to ECR, then SSHs into the EC2 instance
+  # to pull and restart the containers.
+  #
+  # `needs: build-images` ensures Jobs 1 and 2 both passed.
+  #
+  # ENVIRONMENT SELECTION:
+  # The `environment` field dynamically picks "production" or "staging" based
+  # on which branch was pushed to. This is the key to GitHub Environments:
+  # - Both environments define the SAME secret names (EC2_HOST, SSH_PRIVATE_KEY, etc.)
+  # - But each environment has DIFFERENT values (different EC2 instances, keys)
+  # - The workflow YAML never changes -- only the environment context changes
+  #
+  # This is much cleaner than prefixing secrets (STAGING_EC2_HOST, PROD_EC2_HOST)
+  # because the workflow code stays the same regardless of environment.
+  # ============================================================================
+  push-and-deploy:
+    # Only run on push (merge) events, not on pull requests
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    needs: build-images
+
+    # Dynamic environment selection:
+    # - Push to main   -> environment: production
+    # - Push to develop -> environment: staging
+    # Secrets and variables are scoped to the selected environment.
+    environment: ${{ github.ref == 'refs/heads/main' && 'production' || 'staging' }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # -- Configure AWS credentials --
+      # This action sets AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, and
+      # AWS_DEFAULT_REGION as environment variables for subsequent steps.
+      # The credentials come from GitHub Environment secrets.
+      #
+      # NOTE: For production systems, use OIDC (role-to-assume) instead of
+      # access keys. OIDC generates short-lived credentials and doesn't
+      # require storing long-lived secrets. We use access keys here for
+      # simplicity -- see the study guide for the OIDC approach.
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      # -- Login to Amazon ECR --
+      # This authenticates Docker with ECR so we can push images.
+      # The `id: login-ecr` lets us reference the output (registry URL)
+      # in later steps via ${{ steps.login-ecr.outputs.registry }}.
+      # v2 of this action automatically masks the password in logs.
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      # -- Install pnpm and Node.js for API build --
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+          cache-dependency-path: pnpm-lock.yaml
+
+      # -- Build, tag, and push images to ECR --
+      # We use DUAL TAGGING:
+      # 1. Commit SHA tag (e.g., abc1234) -- for traceability. You can always
+      #    know exactly which commit produced an image.
+      # 2. `latest` tag -- for convenience. `docker compose pull` without
+      #    specifying a tag gets the most recent image.
+      #
+      # The API image needs a pre-build step (TypeScript -> JavaScript)
+      # because Dockerfile.api expects dist/server/ to already exist.
+      - name: Build, tag, and push images
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          # Build and push frontend image
+          docker build \
+            -t $REGISTRY/ecommerce-frontend:$IMAGE_TAG \
+            -t $REGISTRY/ecommerce-frontend:latest \
+            ./app
+          docker push $REGISTRY/ecommerce-frontend:$IMAGE_TAG
+          docker push $REGISTRY/ecommerce-frontend:latest
+
+          # Build API server code (TypeScript -> JavaScript)
+          cd app && pnpm install --frozen-lockfile && pnpm build:server && cd ..
+
+          # Build and push API image
+          docker build \
+            -t $REGISTRY/ecommerce-api:$IMAGE_TAG \
+            -t $REGISTRY/ecommerce-api:latest \
+            -f ./app/Dockerfile.api ./app
+          docker push $REGISTRY/ecommerce-api:$IMAGE_TAG
+          docker push $REGISTRY/ecommerce-api:latest
+
+      # -- Deploy to EC2 via SSH --
+      # This is the "CD" (Continuous Deployment) step. We SSH into the EC2
+      # instance and run the same commands you'd run manually:
+      # 1. Authenticate Docker to ECR (so the EC2 can pull images)
+      # 2. git pull to sync the compose file and any config changes
+      # 3. docker compose pull to download the new images
+      # 4. Run database migrations (Drizzle push)
+      # 5. Restart services with the new images
+      #
+      # The SSH private key is stored as a GitHub Environment secret.
+      # The EC2 instance has the corresponding public key in ~/.ssh/authorized_keys.
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            # Authenticate Docker to ECR on the EC2 instance
+            aws ecr get-login-password --region ${{ vars.AWS_REGION }} | \
+              docker login --username AWS --password-stdin ${{ steps.login-ecr.outputs.registry }}
+
+            # Sync the repo to get latest compose file and configs
+            cd ~/app
+            git pull
+
+            # Pull the newly-pushed images from ECR
+            docker compose pull
+
+            # Run database migrations before restarting
+            # Using docker compose run ensures the container has DATABASE_URL
+            # from the compose environment configuration
+            docker compose run --rm api pnpm db:push
+
+            # Restart all services with new images
+            # --force-recreate: recreate containers even if config hasn't changed
+            # --remove-orphans: clean up containers from removed services
+            docker compose up -d --force-recreate --remove-orphans
+
+      # -- Post-deploy health check --
+      # After deploying, we verify the application is actually running.
+      # Without this, a deploy could "succeed" (containers started) but
+      # the app could be crashing on startup -- and no one would know
+      # until a user reports it.
+      #
+      # We wait 15 seconds for containers to start, then retry up to 10
+      # times (10 seconds apart). If /health never returns 200, the
+      # pipeline fails -- alerting the team that something is wrong.
+      - name: Health check
+        run: |
+          echo "Waiting 15s for deployment to stabilize..."
+          sleep 15
+          for i in {1..10}; do
+            status=$(curl -s -o /dev/null -w "%{http_code}" \
+              http://${{ secrets.EC2_HOST }}/health 2>/dev/null || echo "000")
+            if [ "$status" = "200" ]; then
+              echo "Health check passed (attempt $i)"
+              exit 0
+            fi
+            echo "Attempt $i/10: HTTP $status -- retrying in 10s..."
+            sleep 10
+          done
+          echo "Health check FAILED after 10 attempts"
+          exit 1
