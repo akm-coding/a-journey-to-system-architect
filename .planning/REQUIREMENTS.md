@@ -36,7 +36,7 @@ Requirements for the full learning program. Each maps to roadmap phases.
 ### Database
 
 - [x] **DATA-01**: Learner can provision and configure RDS PostgreSQL via Terraform
-- [ ] **DATA-02**: Learner can implement database migrations in a production workflow
+- [x] **DATA-02**: Learner can implement database migrations in a production workflow
 - [x] **DATA-03**: Learner can set up connection pooling for Node.js apps
 - [x] **DATA-04**: Learner can configure automated backups and understand point-in-time recovery
 

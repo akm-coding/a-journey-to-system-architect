@@ -15,8 +15,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Foundation** - Linux, networking, AWS account setup, and core concepts
 - [x] **Phase 2: First Deploy** - Manual EC2 deployment with Nginx, PM2, and RDS
 - [x] **Phase 3: Containerization** - Docker, Docker Compose, and ECR
-- [ ] **Phase 4: CI/CD** - GitHub Actions pipelines with staging and production
-- [ ] **Phase 5: Infrastructure as Code and Database** - Terraform for all resources plus RDS production patterns
+- [x] **Phase 4: CI/CD** - GitHub Actions pipelines with staging and production
+- [x] **Phase 5: Infrastructure as Code and Database** - Terraform for all resources plus RDS production patterns
 - [ ] **Phase 6: Container Orchestration** - ECS/Fargate with ALB and auto-scaling
 - [ ] **Phase 7: Caching and Observability** - Redis, CloudFront, structured logging, and alerting
 - [ ] **Phase 8: System Design Capstone** - Message queues, scaling patterns, and architecture reasoning
@@ -80,8 +80,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 04-01-PLAN.md — App CI/CD prep (ESLint, Prettier, tests, health endpoint), workflow YAML, and concept guide
-- [ ] 04-02-PLAN.md — Exercises, troubleshooting guide, cheatsheet, phase overview, and gate checklist
+- [x] 04-01-PLAN.md — App CI/CD prep (ESLint, Prettier, tests, health endpoint), workflow YAML, and concept guide
+- [x] 04-02-PLAN.md — Exercises, troubleshooting guide, cheatsheet, phase overview, and gate checklist
 
 ### Phase 5: Infrastructure as Code and Database
 **Goal**: Learner can define all AWS infrastructure in Terraform and manage databases with production-grade patterns
@@ -96,9 +96,9 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 05-01-PLAN.md — Terraform concept guide, cheatsheet, and bootstrap infrastructure (S3 state + DynamoDB locks + ECR)
-- [ ] 05-02-PLAN.md — Reusable VPC module, staging and production environment Terraform configs (EC2, RDS, RDS Proxy)
-- [ ] 05-03-PLAN.md — Database patterns guide, exercises, cheatsheet, phase overview, gate checklist, and teardown script
+- [x] 05-01-PLAN.md — Terraform concept guide, cheatsheet, and bootstrap infrastructure (S3 state + DynamoDB locks + ECR)
+- [x] 05-02-PLAN.md — Reusable VPC module, staging and production environment Terraform configs (EC2, RDS, RDS Proxy)
+- [x] 05-03-PLAN.md — Database patterns guide, exercises, cheatsheet, phase overview, gate checklist, and teardown script
 
 ### Phase 6: Container Orchestration
 **Goal**: Learner can run production containers on ECS/Fargate with load balancing and auto-scaling -- no more managing EC2 instances directly
@@ -159,8 +159,8 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8
 | 1. Foundation | 3/3 | Complete | 2026-05-06 |
 | 2. First Deploy | 3/3 | Complete | 2026-05-07 |
 | 3. Containerization | 3/3 | Complete    | 2026-05-06 |
-| 4. CI/CD | 0/2 | Not started | - |
-| 5. Infrastructure as Code and Database | 0/3 | Not started | - |
+| 4. CI/CD | 2/2 | Complete | 2026-05-07 |
+| 5. Infrastructure as Code and Database | 3/3 | Complete | 2026-05-07 |
 | 6. Container Orchestration | 0/3 | Not started | - |
 | 7. Caching and Observability | 0/3 | Not started | - |
 | 8. System Design Capstone | 0/3 | Not started | - |
