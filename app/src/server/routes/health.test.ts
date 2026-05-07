@@ -1,8 +1,17 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
+import type { Request, Response, NextFunction } from 'express';
 
 // Test the health route handler logic directly (not a full HTTP integration test).
 // We create a mock request/response to verify the handler returns the expected shape.
+
+interface RouteLayer {
+  route?: {
+    path: string;
+    methods: { get?: boolean };
+    stack: Array<{ handle: (req: Request, res: Response, next: NextFunction) => void }>;
+  };
+}
 
 describe('GET /health', () => {
   it('responds with status 200 and correct body shape', async () => {
@@ -10,16 +19,15 @@ describe('GET /health', () => {
     const { default: router } = await import('./health.js');
 
     // Extract the GET /health handler from the router stack
-    const layer = router.stack.find(
-      (l: { route?: { path: string; methods: { get?: boolean } } }) =>
-        l.route?.path === '/health' && l.route?.methods?.get,
+    const layer = (router.stack as RouteLayer[]).find(
+      (l) => l.route?.path === '/health' && l.route?.methods?.get,
     );
-    assert.ok(layer, 'GET /health route should exist');
+    assert.ok(layer?.route, 'GET /health route should exist');
 
     const handler = layer.route.stack[0].handle;
 
     // Create mock req/res
-    const mockReq = {};
+    const mockReq = {} as Request;
     let statusCode = 0;
     let responseBody: { status?: string; timestamp?: string } = {};
 
@@ -32,10 +40,10 @@ describe('GET /health', () => {
         responseBody = body;
         return mockRes;
       },
-    };
+    } as unknown as Response;
 
     // Call the handler
-    handler(mockReq, mockRes);
+    handler(mockReq, mockRes, (() => {}) as NextFunction);
 
     // Verify status code
     assert.strictEqual(statusCode, 200, 'should respond with 200');
