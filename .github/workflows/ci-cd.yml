@@ -170,11 +170,12 @@ jobs:
           cache: 'pnpm'
           cache-dependency-path: pnpm-lock.yaml
 
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
       - name: Build API server code
         working-directory: ./app
-        run: |
-          pnpm install --frozen-lockfile
-          pnpm build:server
+        run: pnpm build:server
 
       - name: Build API image
         run: docker build -t ecommerce-api -f ./app/Dockerfile.api .
@@ -272,7 +273,7 @@ jobs:
           docker push $REGISTRY/ecommerce-frontend:latest
 
           # Build API server code (TypeScript -> JavaScript)
-          cd app && pnpm install --frozen-lockfile && pnpm build:server && cd ..
+          pnpm install --frozen-lockfile && cd app && pnpm build:server && cd ..
 
           # Build and push API image
           docker build \
