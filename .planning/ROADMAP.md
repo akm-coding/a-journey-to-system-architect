@@ -93,12 +93,12 @@ Plans:
   3. At least one reusable Terraform module exists (e.g., a VPC module used by both staging and production)
   4. The database uses connection pooling, has automated backups configured, and the learner can run migrations as part of deployment
   5. Running `terraform destroy` tears down the environment cleanly (cost control)
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 05-01: TBD
-- [ ] 05-02: TBD
-- [ ] 05-03: TBD
+- [ ] 05-01-PLAN.md — Terraform concept guide, cheatsheet, and bootstrap infrastructure (S3 state + DynamoDB locks + ECR)
+- [ ] 05-02-PLAN.md — Reusable VPC module, staging and production environment Terraform configs (EC2, RDS, RDS Proxy)
+- [ ] 05-03-PLAN.md — Database patterns guide, exercises, cheatsheet, phase overview, gate checklist, and teardown script
 
 ### Phase 6: Container Orchestration
 **Goal**: Learner can run production containers on ECS/Fargate with load balancing and auto-scaling -- no more managing EC2 instances directly
@@ -109,7 +109,7 @@ Plans:
   2. Auto-scaling adjusts the number of running tasks based on CPU/memory thresholds
   3. Learner can perform a rolling deployment (new version goes live with zero downtime)
   4. Learner can explain ECS concepts: clusters, services, tasks, and how they map to the container lifecycle
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
 - [ ] 06-01: TBD
@@ -126,7 +126,7 @@ Plans:
   3. Application logs are structured JSON flowing to CloudWatch, queryable with Logs Insights
   4. A CloudWatch dashboard shows key metrics (request rate, error rate, latency, CPU/memory)
   5. An alarm fires and sends an SNS notification when error rate exceeds a threshold
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
 - [ ] 07-01: TBD
@@ -142,7 +142,7 @@ Plans:
   2. An SNS topic publishes events that multiple subscribers consume (event-driven pattern working end-to-end)
   3. Learner can whiteboard a system design for a given problem, identifying load balancers, caches, queues, databases, and service boundaries
   4. Learner can articulate scaling strategies (horizontal vs vertical), CAP theorem tradeoffs, and when to split a monolith
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
 - [ ] 08-01: TBD
