@@ -28,17 +28,17 @@ Requirements for the full learning program. Each maps to roadmap phases.
 
 ### Infrastructure as Code
 
-- [ ] **IAC-01**: Learner can write Terraform HCL to provision EC2, RDS, S3, and VPC resources
+- [x] **IAC-01**: Learner can write Terraform HCL to provision EC2, RDS, S3, and VPC resources
 - [x] **IAC-02**: Learner can manage Terraform state with S3 backend and DynamoDB locking
-- [ ] **IAC-03**: Learner can create reusable Terraform modules
+- [x] **IAC-03**: Learner can create reusable Terraform modules
 - [x] **IAC-04**: Learner can execute the full Terraform lifecycle (init, plan, apply, destroy)
 
 ### Database
 
-- [ ] **DATA-01**: Learner can provision and configure RDS PostgreSQL via Terraform
+- [x] **DATA-01**: Learner can provision and configure RDS PostgreSQL via Terraform
 - [ ] **DATA-02**: Learner can implement database migrations in a production workflow
-- [ ] **DATA-03**: Learner can set up connection pooling for Node.js apps
-- [ ] **DATA-04**: Learner can configure automated backups and understand point-in-time recovery
+- [x] **DATA-03**: Learner can set up connection pooling for Node.js apps
+- [x] **DATA-04**: Learner can configure automated backups and understand point-in-time recovery
 
 ### Container Orchestration
 
@@ -119,14 +119,14 @@ Deferred to future milestones.
 | DEPL-05 | Phase 3 | Complete |
 | DEPL-06 | Phase 4 | Complete |
 | DEPL-07 | Phase 4 | Complete |
-| IAC-01 | Phase 5 | Pending |
+| IAC-01 | Phase 5 | Complete |
 | IAC-02 | Phase 5 | Complete |
-| IAC-03 | Phase 5 | Pending |
+| IAC-03 | Phase 5 | Complete |
 | IAC-04 | Phase 5 | Complete |
-| DATA-01 | Phase 5 | Pending |
+| DATA-01 | Phase 5 | Complete |
 | DATA-02 | Phase 5 | Pending |
-| DATA-03 | Phase 5 | Pending |
-| DATA-04 | Phase 5 | Pending |
+| DATA-03 | Phase 5 | Complete |
+| DATA-04 | Phase 5 | Complete |
 | ORCH-01 | Phase 6 | Pending |
 | ORCH-02 | Phase 6 | Pending |
 | ORCH-03 | Phase 6 | Pending |
