@@ -1,0 +1,49 @@
+# =============================================================================
+# .dockerignore (repo root — build context for all Dockerfiles)
+# =============================================================================
+
+# Dependencies (reinstalled inside the container via pnpm install)
+**/node_modules
+
+# Build output (rebuilt inside the container)
+**/dist
+
+# Version control
+.git
+.gitignore
+
+# Environment files (NEVER put secrets in Docker images)
+**/.env
+**/.env.*
+!**/.env.example
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE configs
+.vscode
+.idea
+**/*.swp
+**/*.swo
+
+# Security-sensitive files
+*.pem
+*.key
+.aws
+
+# Docker files
+**/Dockerfile
+**/Dockerfile.*
+**/.dockerignore
+**/docker-compose*.yml
+
+# Non-app directories (not needed for app builds)
+docs
+.planning
+scripts
+infra

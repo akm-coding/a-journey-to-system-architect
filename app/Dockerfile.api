@@ -21,20 +21,21 @@ WORKDIR /app
 # Enable pnpm (Alpine doesn't include it by default)
 RUN corepack enable
 
-# Copy dependency manifests and install PRODUCTION deps only
+# Copy workspace root files needed for pnpm install
 # --prod skips devDependencies (TypeScript, tsx, vite, etc.)
 # --frozen-lockfile ensures lockfile isn't modified during install
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile --prod
+COPY pnpm-lock.yaml pnpm-workspace.yaml package.json ./
+COPY app/package.json ./app/
+RUN pnpm install --frozen-lockfile --prod --filter=app
 
 # Copy the pre-built server code
 # This expects `pnpm build:server` to have been run already
-COPY dist/server ./dist/server
+COPY app/dist/server ./app/dist/server
 
 # Copy Drizzle schema/migration files
 # Drizzle ORM reads these at runtime for schema operations and migrations
 # Without these, database push/migration commands would fail
-COPY src/server/db ./src/server/db
+COPY app/src/server/db ./app/src/server/db
 
 # ---------------------------------------------------------------------------
 # Security: Run as non-root user
@@ -52,4 +53,4 @@ USER appuser
 EXPOSE 3000
 
 # Start the Node.js server
-CMD ["node", "dist/server/index.js"]
+CMD ["node", "app/dist/server/index.js"]

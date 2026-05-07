@@ -19,20 +19,22 @@ FROM node:20-alpine AS build
 # Set working directory inside the container
 WORKDIR /app
 
-# Copy dependency manifests FIRST (for layer caching)
+# Copy workspace root files needed for pnpm install (for layer caching)
 # This layer only changes when dependencies change, so pnpm install
 # is cached on code-only changes -- saves 30-60 seconds per rebuild
-COPY package.json pnpm-lock.yaml ./
+COPY pnpm-lock.yaml pnpm-workspace.yaml package.json ./
+COPY app/package.json ./app/
 
 # Enable pnpm via corepack (Alpine doesn't include pnpm by default)
 # Then install dependencies with frozen lockfile (no lockfile updates)
-RUN corepack enable && pnpm install --frozen-lockfile
+# --filter=app installs only the app workspace and its dependencies
+RUN corepack enable && pnpm install --frozen-lockfile --filter=app
 
 # NOW copy source code (this layer changes on every code edit)
-COPY . .
+COPY app/ ./app/
 
 # Build the React client (Vite outputs to dist/client/)
-RUN pnpm build:client
+RUN cd app && pnpm build:client
 
 # ---------------------------------------------------------------------------
 # Stage 2: Production
@@ -42,12 +44,12 @@ RUN pnpm build:client
 FROM nginx:alpine
 
 # Copy our custom nginx config (SPA routing + API reverse proxy + gzip)
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY app/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy ONLY the built static files from the build stage
 # This is the key multi-stage benefit: we get the build output
 # without carrying over Node.js, node_modules, or source code
-COPY --from=build /app/dist/client /usr/share/nginx/html
+COPY --from=build /app/app/dist/client /usr/share/nginx/html
 
 # Document that this container serves on port 80
 # Note: EXPOSE doesn't actually publish the port -- it's documentation

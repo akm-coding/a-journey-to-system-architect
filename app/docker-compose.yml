@@ -70,8 +70,8 @@ services:
   # Waits for db and redis to be HEALTHY before starting.
   api:
     build:
-      context: .
-      dockerfile: Dockerfile.api
+      context: ..
+      dockerfile: app/Dockerfile.api
     ports:
       - "3000:3000"
     environment:
@@ -95,8 +95,8 @@ services:
       # Changes to these directories on your host are immediately
       # visible inside the container. Combined with a file watcher,
       # this enables live reloading without rebuilding the image.
-      - ./src/server:/app/src/server
-      - ./dist/server:/app/dist/server
+      - ./src/server:/app/app/src/server
+      - ./dist/server:/app/app/dist/server
 
   # ---------------------------------------------------------------------------
   # React Frontend (Nginx)
@@ -105,8 +105,8 @@ services:
   # Nginx serves static files and proxies /api/ to the API service.
   frontend:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ..
+      dockerfile: app/Dockerfile
     ports:
       # Port 80: the main entry point for the application.
       # Users access http://localhost, nginx serves React and proxies API calls.

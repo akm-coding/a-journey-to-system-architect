@@ -146,9 +146,9 @@ jobs:
       # The frontend Dockerfile is a multi-stage build:
       # Stage 1 (Node): Install deps, build React app with Vite
       # Stage 2 (nginx): Copy built files, serve them
-      # The build context is ./app (where the Dockerfile lives).
+      # The build context is the repo root (pnpm-lock.yaml lives here).
       - name: Build frontend image
-        run: docker build -t ecommerce-frontend ./app
+        run: docker build -t ecommerce-frontend -f ./app/Dockerfile .
 
       # -- Build the API image --
       # The API Dockerfile expects a pre-built dist/server/ directory.
@@ -181,7 +181,7 @@ jobs:
           pnpm build:server
 
       - name: Build API image
-        run: docker build -t ecommerce-api -f ./app/Dockerfile.api ./app
+        run: docker build -t ecommerce-api -f ./app/Dockerfile.api .
 
   # ============================================================================
   # JOB 3: PUSH TO ECR AND DEPLOY
@@ -273,7 +273,7 @@ jobs:
           docker build \
             -t $REGISTRY/ecommerce-frontend:$IMAGE_TAG \
             -t $REGISTRY/ecommerce-frontend:latest \
-            ./app
+            -f ./app/Dockerfile .
           docker push $REGISTRY/ecommerce-frontend:$IMAGE_TAG
           docker push $REGISTRY/ecommerce-frontend:latest
 
@@ -284,7 +284,7 @@ jobs:
           docker build \
             -t $REGISTRY/ecommerce-api:$IMAGE_TAG \
             -t $REGISTRY/ecommerce-api:latest \
-            -f ./app/Dockerfile.api ./app
+            -f ./app/Dockerfile.api .
           docker push $REGISTRY/ecommerce-api:$IMAGE_TAG
           docker push $REGISTRY/ecommerce-api:latest
 
