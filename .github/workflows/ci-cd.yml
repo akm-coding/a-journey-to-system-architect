@@ -77,8 +77,6 @@ jobs:
       # installs it globally so we can use it in subsequent steps.
       - name: Install pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 10
 
       # -- Step 3: Set up Node.js with pnpm cache --
       # This installs Node.js 20 and configures caching for pnpm's store.
@@ -164,8 +162,6 @@ jobs:
       # tradeoff is this extra CI step.
       - name: Install pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 10
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -245,8 +241,6 @@ jobs:
       # -- Install pnpm and Node.js for API build --
       - name: Install pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 10
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
