@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
-import { getProduct, type Product, type CartItem } from "../api.js";
+import React, { useEffect, useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import { getProduct, type Product, type CartItem } from '../api.js';
 
-const CART_KEY = "cart";
+const CART_KEY = 'cart';
 
 function getCart(): CartItem[] {
   try {
-    return JSON.parse(localStorage.getItem(CART_KEY) || "[]");
+    return JSON.parse(localStorage.getItem(CART_KEY) || '[]');
   } catch {
     return [];
   }
@@ -51,63 +51,60 @@ export default function ProductDetail() {
   }
 
   if (loading) return <p>Loading product...</p>;
-  if (error) return <p style={{ color: "red" }}>Error: {error}</p>;
+  if (error) return <p style={{ color: 'red' }}>Error: {error}</p>;
   if (!product) return <p>Product not found.</p>;
 
   return (
     <div>
-      <Link
-        to="/"
-        style={{ color: "#0066cc", textDecoration: "none", fontSize: "0.9rem" }}
-      >
+      <Link to="/" style={{ color: '#0066cc', textDecoration: 'none', fontSize: '0.9rem' }}>
         &larr; Back to Products
       </Link>
 
-      <div style={{ marginTop: "1.5rem" }}>
+      <div style={{ marginTop: '1.5rem' }}>
         <div
           style={{
-            width: "100%",
-            height: "200px",
-            backgroundColor: "#f0f0f0",
-            borderRadius: "8px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            color: "#999",
-            fontSize: "0.9rem",
-            marginBottom: "1.5rem",
+            width: '100%',
+            height: '200px',
+            backgroundColor: '#f0f0f0',
+            borderRadius: '8px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: '#999',
+            fontSize: '0.9rem',
+            marginBottom: '1.5rem',
           }}
         >
           Image placeholder
         </div>
 
-        <h2 style={{ margin: "0 0 0.5rem 0" }}>{product.name}</h2>
+        <h2 style={{ margin: '0 0 0.5rem 0' }}>{product.name}</h2>
         <p
           style={{
-            fontSize: "1.5rem",
+            fontSize: '1.5rem',
             fontWeight: 600,
-            color: "#2a7d2e",
-            margin: "0 0 1rem 0",
+            color: '#2a7d2e',
+            margin: '0 0 1rem 0',
           }}
         >
           ${product.price}
         </p>
-        <p style={{ color: "#555", lineHeight: 1.6 }}>{product.description}</p>
+        <p style={{ color: '#555', lineHeight: 1.6 }}>{product.description}</p>
 
         <button
           onClick={addToCart}
           style={{
-            backgroundColor: added ? "#2a7d2e" : "#0066cc",
-            color: "white",
-            border: "none",
-            padding: "0.75rem 1.5rem",
-            borderRadius: "6px",
-            fontSize: "1rem",
-            cursor: "pointer",
-            marginTop: "1rem",
+            backgroundColor: added ? '#2a7d2e' : '#0066cc',
+            color: 'white',
+            border: 'none',
+            padding: '0.75rem 1.5rem',
+            borderRadius: '6px',
+            fontSize: '1rem',
+            cursor: 'pointer',
+            marginTop: '1rem',
           }}
         >
-          {added ? "Added to Cart!" : "Add to Cart"}
+          {added ? 'Added to Cart!' : 'Add to Cart'}
         </button>
       </div>
     </div>

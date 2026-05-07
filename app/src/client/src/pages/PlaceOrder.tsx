@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { createOrder, type CartItem, type Order } from "../api.js";
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { createOrder, type CartItem, type Order } from '../api.js';
 
-const CART_KEY = "cart";
+const CART_KEY = 'cart';
 
 function getCart(): CartItem[] {
   try {
-    return JSON.parse(localStorage.getItem(CART_KEY) || "[]");
+    return JSON.parse(localStorage.getItem(CART_KEY) || '[]');
   } catch {
     return [];
   }
@@ -26,10 +26,7 @@ export default function PlaceOrder() {
     setCart(getCart());
   }, []);
 
-  const total = cart.reduce(
-    (sum, item) => sum + parseFloat(item.price) * item.quantity,
-    0
-  );
+  const total = cart.reduce((sum, item) => sum + parseFloat(item.price) * item.quantity, 0);
 
   async function handleConfirm() {
     setSubmitting(true);
@@ -44,7 +41,7 @@ export default function PlaceOrder() {
       clearCart();
       setCart([]);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to place order");
+      setError(err instanceof Error ? err.message : 'Failed to place order');
     } finally {
       setSubmitting(false);
     }
@@ -52,9 +49,9 @@ export default function PlaceOrder() {
 
   if (order) {
     return (
-      <div style={{ textAlign: "center", padding: "2rem 0" }}>
-        <h2 style={{ color: "#2a7d2e" }}>Order Confirmed!</h2>
-        <p style={{ fontSize: "1.1rem" }}>
+      <div style={{ textAlign: 'center', padding: '2rem 0' }}>
+        <h2 style={{ color: '#2a7d2e' }}>Order Confirmed!</h2>
+        <p style={{ fontSize: '1.1rem' }}>
           Your order ID is <strong>#{order.id}</strong>
         </p>
         <p>
@@ -66,9 +63,9 @@ export default function PlaceOrder() {
         <Link
           to="/"
           style={{
-            color: "#0066cc",
-            textDecoration: "none",
-            fontSize: "1rem",
+            color: '#0066cc',
+            textDecoration: 'none',
+            fontSize: '1rem',
           }}
         >
           Continue Shopping
@@ -82,7 +79,7 @@ export default function PlaceOrder() {
       <div>
         <h2>Place Order</h2>
         <p>Your cart is empty. Add some products first.</p>
-        <Link to="/" style={{ color: "#0066cc", textDecoration: "none" }}>
+        <Link to="/" style={{ color: '#0066cc', textDecoration: 'none' }}>
           Browse Products
         </Link>
       </div>
@@ -95,27 +92,24 @@ export default function PlaceOrder() {
 
       <table
         style={{
-          width: "100%",
-          borderCollapse: "collapse",
-          marginBottom: "1.5rem",
+          width: '100%',
+          borderCollapse: 'collapse',
+          marginBottom: '1.5rem',
         }}
       >
         <thead>
-          <tr style={{ borderBottom: "2px solid #e0e0e0", textAlign: "left" }}>
-            <th style={{ padding: "0.75rem 0" }}>Product</th>
-            <th style={{ padding: "0.75rem 0" }}>Qty</th>
-            <th style={{ padding: "0.75rem 0" }}>Subtotal</th>
+          <tr style={{ borderBottom: '2px solid #e0e0e0', textAlign: 'left' }}>
+            <th style={{ padding: '0.75rem 0' }}>Product</th>
+            <th style={{ padding: '0.75rem 0' }}>Qty</th>
+            <th style={{ padding: '0.75rem 0' }}>Subtotal</th>
           </tr>
         </thead>
         <tbody>
           {cart.map((item) => (
-            <tr
-              key={item.productId}
-              style={{ borderBottom: "1px solid #e0e0e0" }}
-            >
-              <td style={{ padding: "0.75rem 0" }}>{item.name}</td>
-              <td style={{ padding: "0.75rem 0" }}>{item.quantity}</td>
-              <td style={{ padding: "0.75rem 0", fontWeight: 600 }}>
+            <tr key={item.productId} style={{ borderBottom: '1px solid #e0e0e0' }}>
+              <td style={{ padding: '0.75rem 0' }}>{item.name}</td>
+              <td style={{ padding: '0.75rem 0' }}>{item.quantity}</td>
+              <td style={{ padding: '0.75rem 0', fontWeight: 600 }}>
                 ${(parseFloat(item.price) * item.quantity).toFixed(2)}
               </td>
             </tr>
@@ -123,23 +117,19 @@ export default function PlaceOrder() {
         </tbody>
       </table>
 
-      <p style={{ fontSize: "1.25rem", fontWeight: 700 }}>
-        Total: ${total.toFixed(2)}
-      </p>
+      <p style={{ fontSize: '1.25rem', fontWeight: 700 }}>Total: ${total.toFixed(2)}</p>
 
-      {error && (
-        <p style={{ color: "red", marginBottom: "1rem" }}>Error: {error}</p>
-      )}
+      {error && <p style={{ color: 'red', marginBottom: '1rem' }}>Error: {error}</p>}
 
-      <div style={{ display: "flex", gap: "1rem", marginTop: "1rem" }}>
+      <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
         <Link
           to="/cart"
           style={{
-            color: "#0066cc",
-            textDecoration: "none",
-            padding: "0.75rem 1.5rem",
-            border: "1px solid #0066cc",
-            borderRadius: "6px",
+            color: '#0066cc',
+            textDecoration: 'none',
+            padding: '0.75rem 1.5rem',
+            border: '1px solid #0066cc',
+            borderRadius: '6px',
           }}
         >
           Back to Cart
@@ -148,16 +138,16 @@ export default function PlaceOrder() {
           onClick={handleConfirm}
           disabled={submitting}
           style={{
-            backgroundColor: submitting ? "#999" : "#2a7d2e",
-            color: "white",
-            border: "none",
-            padding: "0.75rem 1.5rem",
-            borderRadius: "6px",
-            fontSize: "1rem",
-            cursor: submitting ? "not-allowed" : "pointer",
+            backgroundColor: submitting ? '#999' : '#2a7d2e',
+            color: 'white',
+            border: 'none',
+            padding: '0.75rem 1.5rem',
+            borderRadius: '6px',
+            fontSize: '1rem',
+            cursor: submitting ? 'not-allowed' : 'pointer',
           }}
         >
-          {submitting ? "Placing Order..." : "Confirm Order"}
+          {submitting ? 'Placing Order...' : 'Confirm Order'}
         </button>
       </div>
     </div>

@@ -1,9 +1,10 @@
-import "dotenv/config";
-import express from "express";
-import cors from "cors";
-import productsRouter from "./routes/products.js";
-import ordersRouter from "./routes/orders.js";
-import cartRouter from "./routes/cart.js";
+import 'dotenv/config';
+import express from 'express';
+import cors from 'cors';
+import healthRouter from './routes/health.js';
+import productsRouter from './routes/products.js';
+import ordersRouter from './routes/orders.js';
+import cartRouter from './routes/cart.js';
 
 const app = express();
 
@@ -11,15 +12,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Health check
-app.get("/api/health", (_req, res) => {
-  res.json({ status: "ok", timestamp: new Date().toISOString() });
-});
+// Health check -- mounted BEFORE other routes so it is always accessible
+// Mounted at root (not /api) so load balancers and CI health checks can hit /health directly
+app.use(healthRouter);
 
-// Mount routes
-app.use("/api/products", productsRouter);
-app.use("/api/orders", ordersRouter);
-app.use("/api/cart", cartRouter);
+// Mount API routes
+app.use('/api/products', productsRouter);
+app.use('/api/orders', ordersRouter);
+app.use('/api/cart', cartRouter);
 
 // Start server
 const PORT = process.env.PORT || 3000;

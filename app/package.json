@@ -9,7 +9,12 @@
     "build:client": "vite build --config src/client/vite.config.ts",
     "seed": "tsx src/server/db/seed.ts",
     "db:push": "drizzle-kit push",
-    "db:generate": "drizzle-kit generate"
+    "db:generate": "drizzle-kit generate",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
+    "format": "prettier --check src/",
+    "format:fix": "prettier --write src/",
+    "test": "node --test --import tsx src/server/**/*.test.ts"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -22,6 +27,7 @@
     "react-router-dom": "^7.1.0"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/express-serve-static-core": "^5.1.1",
@@ -30,8 +36,12 @@
     "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react": "^4.3.0",
     "drizzle-kit": "^0.30.0",
+    "eslint": "^10.3.0",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.8.3",
     "tsx": "^4.19.0",
     "typescript": "^5.7.0",
+    "typescript-eslint": "^8.59.2",
     "vite": "^6.0.0"
   }
 }

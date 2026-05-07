@@ -33,27 +33,23 @@ async function request<T>(url: string, options?: RequestInit): Promise<T> {
   const res = await fetch(url, options);
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));
-    throw new Error(
-      (body as { error?: string }).error || `Request failed: ${res.status}`
-    );
+    throw new Error((body as { error?: string }).error || `Request failed: ${res.status}`);
   }
   return res.json() as Promise<T>;
 }
 
 export function getProducts(): Promise<Product[]> {
-  return request<Product[]>("/api/products");
+  return request<Product[]>('/api/products');
 }
 
 export function getProduct(id: number): Promise<Product> {
   return request<Product>(`/api/products/${id}`);
 }
 
-export function createOrder(
-  items: { productId: number; quantity: number }[]
-): Promise<Order> {
-  return request<Order>("/api/orders", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
+export function createOrder(items: { productId: number; quantity: number }[]): Promise<Order> {
+  return request<Order>('/api/orders', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ items }),
   });
 }
