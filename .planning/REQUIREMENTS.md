@@ -29,9 +29,9 @@ Requirements for the full learning program. Each maps to roadmap phases.
 ### Infrastructure as Code
 
 - [ ] **IAC-01**: Learner can write Terraform HCL to provision EC2, RDS, S3, and VPC resources
-- [ ] **IAC-02**: Learner can manage Terraform state with S3 backend and DynamoDB locking
+- [x] **IAC-02**: Learner can manage Terraform state with S3 backend and DynamoDB locking
 - [ ] **IAC-03**: Learner can create reusable Terraform modules
-- [ ] **IAC-04**: Learner can execute the full Terraform lifecycle (init, plan, apply, destroy)
+- [x] **IAC-04**: Learner can execute the full Terraform lifecycle (init, plan, apply, destroy)
 
 ### Database
 
@@ -120,9 +120,9 @@ Deferred to future milestones.
 | DEPL-06 | Phase 4 | Complete |
 | DEPL-07 | Phase 4 | Complete |
 | IAC-01 | Phase 5 | Pending |
-| IAC-02 | Phase 5 | Pending |
+| IAC-02 | Phase 5 | Complete |
 | IAC-03 | Phase 5 | Pending |
-| IAC-04 | Phase 5 | Pending |
+| IAC-04 | Phase 5 | Complete |
 | DATA-01 | Phase 5 | Pending |
 | DATA-02 | Phase 5 | Pending |
 | DATA-03 | Phase 5 | Pending |

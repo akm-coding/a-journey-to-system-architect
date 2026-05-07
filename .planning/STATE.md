@@ -2,13 +2,13 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: unknown
-last_updated: "2026-05-07T09:33:34.426Z"
+status: in-progress
+last_updated: "2026-05-07T11:07:17Z"
 progress:
-  total_phases: 4
+  total_phases: 5
   completed_phases: 4
-  total_plans: 11
-  completed_plans: 11
+  total_plans: 12
+  completed_plans: 12
 ---
 
 # Project State
@@ -18,23 +18,23 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-06)
 
 **Core value:** Independently provision, deploy, scale, and reason about production systems on AWS
-**Current focus:** Phase 4: CI/CD
+**Current focus:** Phase 5: Infrastructure as Code and Database
 
 ## Current Position
 
-Phase: 4 of 8 (CI/CD)
-Plan: 2 of 2 in current phase
-Status: Phase Complete
-Last activity: 2026-05-07 -- Completed 04-01-PLAN.md
+Phase: 5 of 8 (Infrastructure as Code and Database)
+Plan: 1 of 3 in current phase
+Status: In Progress
+Last activity: 2026-05-07 -- Completed 05-01-PLAN.md
 
-Progress: [██████████████░] 44%
+Progress: [███████████████░] 48%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 11
-- Average duration: 4.7 min
-- Total execution time: 0.88 hours
+- Total plans completed: 12
+- Average duration: 4.9 min
+- Total execution time: 0.97 hours
 
 **By Phase:**
 
@@ -44,9 +44,10 @@ Progress: [██████████████░] 44%
 | 2. First Deploy | 3/3 | 14 min | 4.7 min |
 | 3. Containerization | 3/3 | 13 min | 4.3 min |
 | 4. CI/CD | 2/2 | 12 min | 6.0 min |
+| 5. IaC and Database | 1/3 | 11 min | 11.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 03-01 (4 min), 03-02 (4 min), 03-03 (5 min), 04-02 (5 min), 04-01 (7 min)
+- Last 5 plans: 03-02 (4 min), 03-03 (5 min), 04-02 (5 min), 04-01 (7 min), 05-01 (11 min)
 - Trend: Steady
 
 *Updated after each plan completion*
@@ -94,6 +95,10 @@ Recent decisions affecting current work:
 - Node.js built-in test runner (node:test) over Vitest/Jest for zero-dependency testing
 - Health endpoint at /health (root) not /api/health for direct load balancer access
 - ESLint v9 flat config format (not legacy .eslintrc) as industry standard
+- Bootstrap uses local state (no backend block) -- chicken-and-egg pattern for state bucket
+- DynamoDB locking over S3 native locking -- teaches more infrastructure concepts
+- ECR in bootstrap directory (shared across environments, not environment-specific)
+- Annotated .tf files with comment blocks explaining each resource (same as Phase 3 Dockerfiles)
 
 ### Pending Todos
 
@@ -106,5 +111,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-05-07
-Stopped at: Completed 04-01-PLAN.md (Phase 4 complete)
-Resume file: .planning/phases/04-ci-cd/04-01-SUMMARY.md
+Stopped at: Completed 05-01-PLAN.md
+Resume file: .planning/phases/05-infrastructure-as-code-and-database/05-01-SUMMARY.md
