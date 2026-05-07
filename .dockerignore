@@ -5,8 +5,9 @@
 # Dependencies (reinstalled inside the container via pnpm install)
 **/node_modules
 
-# Build output (rebuilt inside the container)
+# Build output (exclude most dist/ but allow pre-built server for API image)
 **/dist
+!app/dist/server
 
 # Version control
 .git
