@@ -77,11 +77,11 @@ Plans:
   1. A push to the main branch triggers a GitHub Actions workflow that builds, tests, and deploys the app
   2. Staging and production environments exist with separate configurations, and the pipeline deploys to the correct one based on branch
   3. A failing test prevents deployment (the pipeline catches it and stops)
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 04-01: TBD
-- [ ] 04-02: TBD
+- [ ] 04-01-PLAN.md — App CI/CD prep (ESLint, Prettier, tests, health endpoint), workflow YAML, and concept guide
+- [ ] 04-02-PLAN.md — Exercises, troubleshooting guide, cheatsheet, phase overview, and gate checklist
 
 ### Phase 5: Infrastructure as Code and Database
 **Goal**: Learner can define all AWS infrastructure in Terraform and manage databases with production-grade patterns
