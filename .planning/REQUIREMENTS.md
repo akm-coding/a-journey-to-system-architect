@@ -23,8 +23,8 @@ Requirements for the full learning program. Each maps to roadmap phases.
 - [x] **DEPL-03**: Learner can write Dockerfiles for React (multi-stage build) and Node apps
 - [x] **DEPL-04**: Learner can use Docker Compose to run a multi-service stack locally (app + db + redis)
 - [x] **DEPL-05**: Learner can push Docker images to AWS ECR
-- [ ] **DEPL-06**: Learner can set up a GitHub Actions pipeline that builds, tests, and deploys on merge
-- [ ] **DEPL-07**: Learner can configure environment-specific deployments (staging vs production)
+- [x] **DEPL-06**: Learner can set up a GitHub Actions pipeline that builds, tests, and deploys on merge
+- [x] **DEPL-07**: Learner can configure environment-specific deployments (staging vs production)
 
 ### Infrastructure as Code
 
@@ -117,8 +117,8 @@ Deferred to future milestones.
 | DEPL-03 | Phase 3 | Complete |
 | DEPL-04 | Phase 3 | Complete |
 | DEPL-05 | Phase 3 | Complete |
-| DEPL-06 | Phase 4 | Pending |
-| DEPL-07 | Phase 4 | Pending |
+| DEPL-06 | Phase 4 | Complete |
+| DEPL-07 | Phase 4 | Complete |
 | IAC-01 | Phase 5 | Pending |
 | IAC-02 | Phase 5 | Pending |
 | IAC-03 | Phase 5 | Pending |
