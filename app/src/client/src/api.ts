@@ -35,6 +35,7 @@ async function request<T>(url: string, options?: RequestInit): Promise<T> {
     const body = await res.json().catch(() => ({}));
     throw new Error((body as { error?: string }).error || `Request failed: ${res.status}`);
   }
+  console.log('Res==>', res.json());
   return res.json() as Promise<T>;
 }
 
