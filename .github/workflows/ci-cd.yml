@@ -222,7 +222,7 @@ jobs:
       # NOTE: For production systems, use OIDC (role-to-assume) instead of
       # access keys. OIDC generates short-lived credentials and doesn't
       # require storing long-lived secrets. We use access keys here for
-      # simplicity -- see the study guide for the OIDC approach.
+      # simplicity -- see the Phase 4 study guide for the OIDC approach.
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
